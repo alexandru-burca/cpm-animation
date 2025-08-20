@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logo Loading Animation</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden; /* hide scroll during animation */
+      font-family: sans-serif;
+      background: #f5f5f5;
+    }
+
+     .video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    /* Splash screen wrapper */
+    .splash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .splash .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+      opacity: 1;
+      animation: logoPop 2s forwards;
+      
+    }
+    @keyframes logoPop {
+      0%   { transform: scale(1.1); }
+      50%  { transform: scale(0.9); }
+      100% { transform: scale(1.2); }
+    }
+    .splash .logo  img{
+        width: 400px;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .fade-out {
+      animation: fadeOut 0.8s ease-out forwards;
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; }
+    }
+
+    /* Panels for split effect (left + right) */
+    .panel {
+      position: fixed;
+      top: -20%;
+      height: calc(200%);
+      width: 70%;
+      background: black;
+      z-index: 9998;
+      transition: transform 1s ease-in-out;
+    }
+    .panel.left {
+      left: -20%;
+      transform: translateX(0);
+    }
+    .panel.right {
+      right: -20%;
+      top: -40%;
+      transform: translateX(0);
+    }
+    .panel.left.move {
+      transform: translateX(-100%);
+      rotate: -20deg;
+    }
+    .panel.right.move {
+     transform: translateX(100%);
+      rotate: -20deg;
+    }
+
+    .header {
+      position: fixed;
+      top: -100px;
+      width: 100%;
+      color: white;
+      font-size: 2rem;
+      text-align: right;
+      transition: top 1s ease;
+      z-index: 2;
+    }
+
+    .header.show {
+      top: 20px;
+    }
+ /* Bottom buttons */
+    .buttons {
+      position: fixed;
+      bottom: -100px;
+      width: 100%;
+      display: flex;
+      justify-content: left;
+      gap: 20px;
+      transition: bottom 1s ease;
+      z-index: 2;
+      margin-left: 50px;
+    }
+
+    .buttons button {
+      padding: 12px 25px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.8);
+      color: black;
+      transition: background 0.3s ease;
+    }
+
+    .buttons button:hover {
+      background: white;
+    }
+
+    .buttons.show {
+      bottom: 40px;
+    }
+
+  </style>
+</head>
+<body>
+ <video class="video-bg" autoplay muted loop>
+    <source src="Temp_CPM_Homepage_Video.mp4" type="video/mp4">
+  </video>
+  <!-- Splash screen -->
+  <div class="splash">
+    <div class="logo"><img src="logo.svg"></div>
+  </div>
+
+  <div class="header"><p style="padding-right:20px">Menu goes here</p></div>
+
+  <!-- Bottom buttons -->
+  <div class="buttons">
+    <button>Button 1</button>
+    <button>Button 2</button>
+  </div>
+  <!-- Panels for cut effect -->
+  <div class="panel left"></div>
+  <div class="panel right"></div>
+
+
+  <script>
+    window.addEventListener("load", () => {
+      const logo = document.querySelector(".logo");
+      const splash = document.querySelector(".splash");
+      const header = document.querySelector(".header");
+      const buttons = document.querySelector(".buttons");
+
+      setTimeout(() => {
+        // fade out logo first
+        logo.classList.add("fade-out");
+
+        setTimeout(() => {
+          // hide splash bg
+          splash.style.display = "none";
+
+          // animate panels (curtain open)
+          document.querySelector(".panel.left").classList.add("move");
+          document.querySelector(".panel.right").classList.add("move");
+
+          // show content after animation
+          setTimeout(() => {
+            document.body.style.overflow = "auto"; // re-enable scroll
+          }, 1000);
+        }, 800); // wait for fade-out before splitting
+
+      }, 1500); // logo stays visible for 2s
+              // Hide loader and bring in header/buttons
+      setTimeout(() => {
+        document.body.style.overflow = "auto";
+
+        // Show header and buttons with slide-in
+        header.classList.add("show");
+        buttons.classList.add("show");
+      }, 4000);
+    });
+  </script>
+
+</body>
+</html>
