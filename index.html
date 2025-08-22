@@ -43,13 +43,13 @@
       font-weight: bold;
       color: white;
       opacity: 1;
-      animation: logoPop 2s forwards;
+      animation: logoPop 2s infinite ease-in-out;
       
     }
     @keyframes logoPop {
-      0%   { transform: scale(1.1); }
-      50%  { transform: scale(0.9); }
-      100% { transform: scale(1.2); }
+      0%   { transform: scale(1.4); }
+      50%  { transform: scale(1.1); }
+      100% { transform: scale(1.4); }
     }
     .splash .logo  img{
         width: 400px;
@@ -75,7 +75,7 @@
       width: 70%;
       background: black;
       z-index: 9998;
-      transition: transform 1s ease-in-out;
+      transition: transform 1.5s ease-in-out;
     }
     .panel.left {
       left: -20%;
@@ -189,7 +189,7 @@
           }, 1000);
         }, 800); // wait for fade-out before splitting
 
-      }, 1500); // logo stays visible for 2s
+      }, 3000); // logo stays visible for 2s
               // Hide loader and bring in header/buttons
       setTimeout(() => {
         document.body.style.overflow = "auto";
